@@ -10,6 +10,7 @@ namespace Book_api.Controllers;
 [ApiController]
 public class BooksController(ApplicationDbContext context) : ControllerBase
 {
+    /* All enpoints in this controller at secured by '[Authorize]', a valid token is needed to call these */
     // GET: api/Books
     [HttpGet]
     [Authorize]
@@ -20,12 +21,17 @@ public class BooksController(ApplicationDbContext context) : ControllerBase
     [Authorize]
     public async Task<IActionResult> UpdateBook(int id, Book book)
     {
+
+        /* Sanity check to guard against bad requests */
         if (id != book.id) return BadRequest();
 
+        /* Load the old object to mutate */
         var oldBook = await context.Books.FirstOrDefaultAsync(b => b.id == id);
 
+        /* Make sure this is not a rogue Create-operation */
         if (oldBook is null) return NotFound();
 
+        /* Copy the new info */
         oldBook.title = book.title;
         oldBook.author = book.author;
         oldBook.publicationDate = book.publicationDate;

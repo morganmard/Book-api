@@ -21,10 +21,12 @@ public class UserController(IConfiguration configuration, ApplicationDbContext c
     {
         var user = await context.Users.FirstOrDefaultAsync(u => u.name == newUser.name);
 
+        /* Make sure usernames are unique */
         if (user is not null) return BadRequest("Username already taken");
 
         if (newUser.name.Length > 20) return BadRequest("Username too long (max 20)");
 
+        /* Hash the password and save the new user */
         user = new()
         {
             name = newUser.name,
@@ -47,11 +49,12 @@ public class UserController(IConfiguration configuration, ApplicationDbContext c
 
         if (realUser.password == Hash(user.password))
         {
-            return Ok(new { Token = GenerateJwtToken(user.name) });
+            return Ok(new { Token = GenerateJwtToken(user.name) }); //Return a json object containing the token
         }
         return Unauthorized();
     }
 
+    /* Generate a token based on username, which is valid for 120 minutes */
     private string GenerateJwtToken(string Username)
     {
         var claims = new[]{

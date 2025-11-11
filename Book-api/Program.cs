@@ -12,13 +12,16 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        /* Make sure a key is provided in appsettings.json */
         var key = builder.Configuration["signingKey"] ?? throw new Exception("Key needs to be set in appsettings");
 
-        if (key.Length < 31) throw new Exception("Password too short");
+        /* Make sure the key is long enough for sha256 hmac */
+        if (key.Length < 31) throw new Exception("key too short");
 
         builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=Data/app.db"));
         builder.Services.AddControllers();
 
+        /* Configure JWT middle-ware */
         builder.Services.AddAuthentication().AddJwtBearer(options =>
         {
             options.TokenValidationParameters = new TokenValidationParameters
@@ -42,6 +45,7 @@ public class Program
         app.UseAuthorization();
         app.MapControllers();
 
+        /* Cors-policies to allow all connections */
         app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
         app.Run();
