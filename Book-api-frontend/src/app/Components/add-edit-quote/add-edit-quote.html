@@ -1,0 +1,32 @@
+<div class="container">
+  @if(IsEdit){
+  <h2>Edit quote</h2>
+  } @else {
+  <h2>Create new quote</h2>
+  }
+  <div>
+    <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="input-content" class="form-label">Content</label>
+        <input
+          type="text"
+          class="form-control"
+          id="input-content"
+          required
+          formControlName="content"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="input-author" class="form-label">Author</label>
+        <input
+          type="text"
+          class="form-control"
+          id="input-author"
+          required
+          formControlName="author"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>

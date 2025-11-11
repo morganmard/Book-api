@@ -1,0 +1,36 @@
+<div class="container">
+  @if(IsEdit){
+  <h2>Edit book</h2>
+  } @else {
+  <h2>Create new book</h2>
+  }
+  <div>
+    <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="input-title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="input-title" required formControlName="title" />
+      </div>
+      <div class="mb-3">
+        <label for="input-author" class="form-label">Author</label>
+        <input
+          type="text"
+          class="form-control"
+          id="input-author"
+          required
+          formControlName="author"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="input-publicationDate" class="form-label">Publication date</label>
+        <input
+          type="date"
+          class="form-control"
+          id="input-publicationDate"
+          required
+          formControlName="publicationDate"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>

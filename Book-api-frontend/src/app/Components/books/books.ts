@@ -1,0 +1,49 @@
+import { Component, OnInit, inject } from '@angular/core';
+import { ApiBackend } from '../../Services/api-backend';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-books',
+  templateUrl: './books.html',
+})
+export class Books implements OnInit {
+  private backend = inject(ApiBackend);
+  public router = inject(Router);
+
+  books: IBook[] = [];
+
+  ngOnInit(): void {
+    this.loadBooks();
+  }
+
+  addBook(): void {
+    this.router.navigate(['add'], {
+      queryParams: { Edit: false },
+    });
+  }
+
+  loadBooks(): void {
+    this.backend.getAllBooks().subscribe({
+      next: (v) => (this.books = v),
+    });
+  }
+
+  editBook(book: any): void {
+    this.router.navigate(['edit'], {
+      queryParams: { book: JSON.stringify(book), Edit: true },
+    });
+  }
+
+  removeBook(Id: number): void {
+    this.backend.DeleteBook(Id).subscribe({
+      next: () => this.router.navigate(['books']),
+    });
+  }
+}
+
+export interface IBook {
+  id: number;
+  title: string;
+  author: string;
+  publicationDate: Date;
+}
