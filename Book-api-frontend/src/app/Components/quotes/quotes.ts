@@ -10,6 +10,8 @@ export class Quotes implements OnInit {
   private backend = inject(ApiBackend);
   public router = inject(Router);
 
+  private isDarkMode: boolean = false;
+
   quotes: IQuote[] = [];
 
   ngOnInit(): void {
@@ -36,8 +38,17 @@ export class Quotes implements OnInit {
 
   removeQuote(Id: number): void {
     this.backend.DeleteQuote(Id).subscribe({
-      next: () => this.router.navigate(['quotes']),
+      next: () => this.loadQuotes(),
     });
+  }
+
+  lightDarkMode(): void {
+    if (this.isDarkMode) {
+      document.body.classList.remove('dark-mode');
+    } else {
+      document.body.classList.add('dark-mode');
+    }
+    this.isDarkMode = !this.isDarkMode;
   }
 }
 

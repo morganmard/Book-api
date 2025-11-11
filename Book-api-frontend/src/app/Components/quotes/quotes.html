@@ -1,4 +1,8 @@
 <div>
+  <button class="btn btn-primary" (click)="router.navigate(['books'])">Switch to books-view</button>
+  <button class="btn btn-secondary pull-right" (click)="lightDarkMode()">
+    <i class="fa fa-sun-o fa-1x"></i>
+  </button>
   <h2>Quotes</h2>
   <div>
     <button class="btn btn-danger" (click)="addQuote()">Add quote</button>
@@ -10,7 +14,7 @@
           <th scope="col">#</th>
           <th scope="col">Content</th>
           <th scope="col">Author</th>
-          <th scope="col">*|X</th>
+          <th scope="col">Edit | Remove</th>
         </tr>
       </thead>
       <tbody>
@@ -20,8 +24,12 @@
           <td>{{ quote.content }}</td>
           <td>{{ quote.author }}</td>
           <td>
-            <button class="btn btn-primary" (click)="editQuote(quote)">Edit</button>
-            <button class="btn btn-danger" (click)="removeQuote(quote.id)">Remove</button>
+            <button class="btn btn-primary" (click)="editQuote(quote)">
+              <i class="fa fa-pencil fa-1x"></i>
+            </button>
+            <button class="btn btn-danger" (click)="removeQuote(quote.id)">
+              <i class="fa fa-times fa-1x"></i>
+            </button>
           </td>
         </tr>
         }

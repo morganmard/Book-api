@@ -1,9 +1,30 @@
 <div class="container">
+  @if(isRegister){
+  <h2>Register new account</h2>
+  <div>
+    <p>
+      Already have an account?
+      <button type="button" class="btn btn-secondary" (click)="this.isRegister = false">
+        Click here to login
+      </button>
+    </p>
+  </div>
+  @if(errorMessage !== "Empty"){
+  <div>
+    @if(errorMessage === "Invalid"){
+    <p>Please supply both a username and password</p>
+    } @if(errorMessage.match("Username already taken")){
+    <p>Username already taken</p>
+    } @if(errorMessage.match("Username too long")){
+    <p>Username too long (max 20)</p>
+    }
+  </div>
+  } } @else{
   <h2>Login</h2>
   <div>
     <p>
       No account?
-      <button type="button" class="btn btn-secondary" (click)="router.navigate(['register'])">
+      <button type="button" class="btn btn-secondary" (click)="this.isRegister = true">
         Click here to register
       </button>
     </p>
@@ -18,10 +39,12 @@
     <p>Wrong password</p>
     }
   </div>
-  }
+  } }
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
-      <label for="input-name" class="form-label">Username</label>
+      <label for="input-name" class="form-label">
+        <i class="fa fa-user fa-2x"></i>
+      </label>
       <input
         type="text"
         class="form-control"
@@ -32,7 +55,9 @@
       />
     </div>
     <div class="mb-3">
-      <label for="input-password" class="form-label">Password</label>
+      <label for="input-password" class="form-label">
+        <i class="fa fa-key fa-2x"></i>
+      </label>
       <input
         type="password"
         class="form-control"
@@ -42,6 +67,10 @@
         required
       />
     </div>
+    @if(isRegister){
+    <button type="submit" class="btn btn-primary">Create new account</button>
+    } @else {
     <button type="submit" class="btn btn-primary">Log in</button>
+    }
   </form>
 </div>

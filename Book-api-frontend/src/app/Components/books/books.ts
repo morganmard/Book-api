@@ -10,6 +10,8 @@ export class Books implements OnInit {
   private backend = inject(ApiBackend);
   public router = inject(Router);
 
+  private isDarkMode: boolean = false;
+
   books: IBook[] = [];
 
   ngOnInit(): void {
@@ -36,8 +38,17 @@ export class Books implements OnInit {
 
   removeBook(Id: number): void {
     this.backend.DeleteBook(Id).subscribe({
-      next: () => this.router.navigate(['books']),
+      next: () => this.loadBooks(),
     });
+  }
+
+  lightDarkMode(): void {
+    if (this.isDarkMode) {
+      document.body.classList.remove('dark-mode');
+    } else {
+      document.body.classList.add('dark-mode');
+    }
+    this.isDarkMode = !this.isDarkMode;
   }
 }
 

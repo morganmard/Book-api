@@ -1,7 +1,13 @@
 <div>
+  <button class="btn btn-primary" (click)="router.navigate(['quotes'])">
+    Switch to quotes-view
+  </button>
+  <button class="btn btn-secondary pull-right" (click)="lightDarkMode()">
+    <i class="fa fa-sun-o fa-1x"></i>
+  </button>
   <h2>Books</h2>
   <div>
-    <button class="btn btn-danger" (click)="addBook()">Add book</button>
+    <button class="btn btn-dark" (click)="addBook()">Add book</button>
   </div>
   <div class="table-responsive">
     <table class="table table-bordered table-striped">
@@ -11,7 +17,7 @@
           <th scope="col">Title</th>
           <th scope="col">Author</th>
           <th scope="col">Publication date</th>
-          <th scope="col">*|X</th>
+          <th scope="col">Edit | Remove</th>
         </tr>
       </thead>
       <tbody>
@@ -22,8 +28,12 @@
           <td>{{ book.author }}</td>
           <td>{{ book.publicationDate }}</td>
           <td>
-            <button class="btn btn-primary" (click)="editBook(book)">Edit</button>
-            <button class="btn btn-danger" (click)="removeBook(book.id)">Remove</button>
+            <button class="btn btn-primary" (click)="editBook(book)">
+              <i class="fa fa-pencil fa-1x"></i>
+            </button>
+            <button class="btn btn-danger" (click)="removeBook(book.id)">
+              <i class="fa fa-times fa-1x"></i>
+            </button>
           </td>
         </tr>
         }

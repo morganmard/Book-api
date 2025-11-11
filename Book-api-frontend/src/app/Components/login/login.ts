@@ -10,7 +10,9 @@ import { Router } from '@angular/router';
 })
 export class Login implements OnInit {
   private backend = inject(ApiBackend);
-  public router = inject(Router);
+  private router = inject(Router);
+
+  public isRegister: boolean = false;
 
   errorMessage: string = 'Empty';
 
@@ -31,13 +33,21 @@ export class Login implements OnInit {
     if (this.loginForm.value.name === '' || this.loginForm.value.password === '') {
       this.errorMessage = 'Invalid';
     } else {
-      this.backend.Login(this.loginForm.value).subscribe({
-        next: (v) => {
-          sessionStorage.setItem('token', v.token), this.router.navigate(['books']);
-        },
-        error: (e) => (this.errorMessage = JSON.stringify(e)),
-      });
-      this.loginForm.reset();
+      if (this.isRegister) {
+        this.backend.Register(this.loginForm.value).subscribe({
+          next: (v) => (this.isRegister = false),
+          error: (e) => (this.errorMessage = JSON.stringify(e)),
+        });
+        this.loginForm.reset();
+      } else {
+        this.backend.Login(this.loginForm.value).subscribe({
+          next: (v) => {
+            sessionStorage.setItem('token', v.token), this.router.navigate(['books']);
+          },
+          error: (e) => (this.errorMessage = JSON.stringify(e)),
+        });
+        this.loginForm.reset();
+      }
     }
   }
 }
